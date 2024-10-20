@@ -1,0 +1,11 @@
+services:
+  mongo:
+    container_name: qter_auth_mongo
+    image: mongo:7.0.14
+    ports:
+      - "27017:27017"
+    volumes:
+      - qter-auth-mongo-data:/data/db
+
+volumes:
+  qter-auth-mongo-data:
