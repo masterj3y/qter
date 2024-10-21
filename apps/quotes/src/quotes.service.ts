@@ -1,24 +1,37 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { QuoteDocument } from './model/quote.schema';
 import { Model, Types } from 'mongoose';
-import { CreateQuoteDto } from './dto/create-quote.dto';
-import { UpdateQuoteDto } from './dto/update-quote.dto';
+import { CreateQuoteDto, IndexQuoteDto, SEARCH_SERVICE } from '@app/common';
+import { UpdateQuoteDto } from '@app/common';
+import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class QuotesService {
   constructor(
     @InjectModel(QuoteDocument.name)
     private readonly quoteModel: Model<QuoteDocument>,
+    @Inject(SEARCH_SERVICE) private readonly searchClient: ClientProxy,
   ) {}
 
   async createQuote(userId: string, createQuoteDto: CreateQuoteDto) {
-    const quote = await this.quoteModel.create({
+    let quote = await this.quoteModel.create({
       _id: new Types.ObjectId(),
       ...createQuoteDto,
       userId,
     });
-    return quote.save();
+
+    quote = await quote.save();
+    const tempQuote = { ...quote.toObject(), _id: undefined };
+
+    const indexQuoteDto: IndexQuoteDto = {
+      ...tempQuote,
+      documentDBId: quote._id.toString(),
+    };
+
+    this.searchClient.emit('index_quote', indexQuoteDto).subscribe();
+
+    return quote;
   }
 
   findQuoteById(quoteId: string) {

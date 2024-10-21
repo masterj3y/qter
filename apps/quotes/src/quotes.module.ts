@@ -2,7 +2,12 @@ import { Module } from '@nestjs/common';
 import { QuotesService } from './quotes.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as Joi from 'joi';
-import { AUTH_SERVICE, DatabaseModule, LoggerModule } from '@app/common';
+import {
+  AUTH_SERVICE,
+  DatabaseModule,
+  LoggerModule,
+  SEARCH_SERVICE,
+} from '@app/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { QuotesController } from './quotes.controller';
 import { QuoteDocument, QuoteSchema } from './model/quote.schema';
@@ -17,6 +22,8 @@ import { QuoteDocument, QuoteSchema } from './model/quote.schema';
         PORT: Joi.number().required(),
         AUTH_HOST: Joi.string().required(),
         AUTH_PORT: Joi.number().required(),
+        SEARCH_HOST: Joi.string().required(),
+        SEARCH_PORT: Joi.number().required(),
         MONGODB_URI: Joi.string().required(),
       }),
     }),
@@ -28,6 +35,17 @@ import { QuoteDocument, QuoteSchema } from './model/quote.schema';
           options: {
             host: configService.get<string>('AUTH_HOST'),
             port: configService.get<number>('AUTH_PORT'),
+          },
+        }),
+        inject: [ConfigService],
+      },
+      {
+        name: SEARCH_SERVICE,
+        useFactory: (configService: ConfigService) => ({
+          transport: Transport.TCP,
+          options: {
+            host: configService.get<string>('SEARCH_HOST'),
+            port: configService.get<number>('SEARCH_PORT'),
           },
         }),
         inject: [ConfigService],

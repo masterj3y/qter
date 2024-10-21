@@ -9,8 +9,8 @@ import {
 } from '@nestjs/common';
 import { QuotesService } from './quotes.service';
 import { CurrentUser, JwtAuthGuard, UserDto } from '@app/common';
-import { CreateQuoteDto } from './dto/create-quote.dto';
-import { UpdateQuoteDto } from './dto/update-quote.dto';
+import { CreateQuoteDto } from '@app/common';
+import { UpdateQuoteDto } from '@app/common';
 
 @Controller('quotes')
 export class QuotesController {

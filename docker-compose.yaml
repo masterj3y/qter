@@ -1,9 +1,14 @@
 services:
+  nginx:
+    container_name: qter_nginx
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - "./nginx/:/etc/nginx/conf.d/"
   mongo:
     container_name: qter_mongo
     image: mongo:7.0.14
-    ports:
-      - '27017:27017'
     volumes:
       - qter-auth-mongo-data:/data/db
   auth:
@@ -14,8 +19,6 @@ services:
       target: production
     env_file:
       - ./apps/auth/.env
-    ports:
-      - '3000:3000'
   quotes:
     container_name: qter_quotes
     build:
@@ -24,9 +27,42 @@ services:
       target: production
     env_file:
       - ./apps/quotes/.env
-    ports:
-      - '3002:3002'
+  search:
+    container_name: qter_search
+    build:
+      context: .
+      dockerfile: ./apps/search/Dockerfile
+      target: production
+    env_file:
+      - ./apps/search/.env
 
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.15.3
+    container_name: qter_es
+    environment:
+      - node.name=es01
+      - discovery.type=single-node
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - xpack.security.enabled=false # Disable security for basic setup (username/password auth)
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.15.3
+    container_name: qter_kibana
+    ports:
+      - "5601:5601"
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
 
 volumes:
   qter-auth-mongo-data:
+  esdata:
