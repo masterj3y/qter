@@ -25,6 +25,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/auth/tsconfig.app.json"
       }
+    },
+    "quotes": {
+      "type": "application",
+      "root": "apps/quotes",
+      "entryFile": "main",
+      "sourceRoot": "apps/quotes/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/quotes/tsconfig.app.json"
+      }
     }
   },
   "monorepo": true,

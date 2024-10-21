@@ -14,12 +14,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
         (request: any) => {
-          const httpToken = String(request?.headers?.authorization).replace(
-            'Bearer ',
-            '',
+          const httpToken = this.extractJwtFromBearer(
+            request?.headers?.authorization,
           );
 
-          return httpToken || request?.authorization;
+          const tcpToken = this.extractJwtFromBearer(request?.authorization);
+          return httpToken || tcpToken;
         },
       ]),
       secretOrKey: configService.get<string>('JWT_SECRET'),
@@ -28,5 +28,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   async validate({ userId }: TokenPayload) {
     return this.usersService.findUserById(userId);
+  }
+
+  private extractJwtFromBearer(authorization: any) {
+    if (!authorization) return undefined;
+    return String(authorization).replace('Bearer ', '');
   }
 }

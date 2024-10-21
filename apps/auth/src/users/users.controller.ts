@@ -1,11 +1,11 @@
 import { Body, Controller, Get, Patch, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { JwtAuthGuard } from '../guards/jwt-auth.guard';
-import { CurrentUser } from '../decorators/current-user.decorator';
+import { CurrentUser } from '../../../../libs/common/src/decorators/current-user.decorator';
 import { UserDocument } from './models/user.schema';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Serialize } from '@app/common/interceptors/serialize.interceptor';
 import { GetUserDto } from './dto/get-user.dto';
+import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 
 @Controller('users')
 export class UsersController {

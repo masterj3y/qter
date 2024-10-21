@@ -1,11 +1,32 @@
 services:
   mongo:
-    container_name: qter_auth_mongo
+    container_name: qter_mongo
     image: mongo:7.0.14
     ports:
-      - "27017:27017"
+      - '27017:27017'
     volumes:
       - qter-auth-mongo-data:/data/db
+  auth:
+    container_name: qter_auth
+    build:
+      context: .
+      dockerfile: ./apps/auth/Dockerfile
+      target: production
+    env_file:
+      - ./apps/auth/.env
+    ports:
+      - '3000:3000'
+  quotes:
+    container_name: qter_quotes
+    build:
+      context: .
+      dockerfile: ./apps/quotes/Dockerfile
+      target: production
+    env_file:
+      - ./apps/quotes/.env
+    ports:
+      - '3002:3002'
+
 
 volumes:
   qter-auth-mongo-data:
