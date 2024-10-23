@@ -16,7 +16,8 @@ import { JwtStrategy } from './strategies/jwt.strategy';
       isGlobal: true,
       envFilePath: 'apps/auth/.env',
       validationSchema: Joi.object({
-        HTTP_PORT: Joi.number().required(),
+        HTTP_PORT: Joi.string().required(),
+        TCP_PORT: Joi.string().required(),
         MONGODB_URI: Joi.string().required(),
         JWT_SECRET: Joi.string().required(),
         JWT_EXPIRATION: Joi.string().required(),

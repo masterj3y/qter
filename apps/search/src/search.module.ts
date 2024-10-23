@@ -14,12 +14,12 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
       isGlobal: true,
       envFilePath: 'apps/search/.env',
       validationSchema: Joi.object({
-        HTTP_PORT: Joi.number().required(),
-        TCP_PORT: Joi.number().required(),
+        HTTP_PORT: Joi.string().required(),
+        TCP_PORT: Joi.string().required(),
         AUTH_HOST: Joi.string().required(),
-        AUTH_PORT: Joi.number().required(),
+        AUTH_PORT: Joi.string().required(),
         ELASTIC_HOST: Joi.string().required(),
-        ELASTIC_PORT: Joi.number().required(),
+        ELASTIC_PORT: Joi.string().required(),
       }),
     }),
     ClientsModule.registerAsync([
