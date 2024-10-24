@@ -19,6 +19,12 @@ services:
       target: production
     env_file:
       - ./apps/auth/.env
+    environment:
+      - PORT=3000
+      - MONGODB_URI=mongodb://mongo:27017/users
+      - RABBITMQ_URI=amqp://rabbitmq:5672
+      - JWT_SECRET=fsalkdjfsdkfhslkfjs
+      - JWT_EXPIRATION=90d
   quotes:
     container_name: qter_quotes
     build:
@@ -27,6 +33,10 @@ services:
       target: production
     env_file:
       - ./apps/quotes/.env
+    environment:
+      - PORT=3002
+      - MONGODB_URI=mongodb://mongo:27017/quotes
+      - RABBITMQ_URI=amqp://rabbitmq:5672
   search:
     container_name: qter_search
     build:
@@ -35,6 +45,10 @@ services:
       target: production
     env_file:
       - ./apps/search/.env
+    environment:
+      - PORT=3003
+      - RABBITMQ_URI=amqp://rabbitmq:5672
+      - ELASTIC_URI=http://elasticsearch:9200
   rabbitmq:
     container_name: qter_rabbitmq
     image: rabbitmq:4.0.2-management-alpine
