@@ -35,6 +35,13 @@ services:
       target: production
     env_file:
       - ./apps/search/.env
+  rabbitmq:
+    container_name: qter_rabbitmq
+    image: rabbitmq:4.0.2-management-alpine
+    ports:
+      - "15672:15672"
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.15.3
@@ -66,3 +73,4 @@ services:
 volumes:
   qter-auth-mongo-data:
   esdata:
+  rabbitmq-data:

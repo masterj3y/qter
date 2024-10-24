@@ -20,10 +20,6 @@ import { QuoteDocument, QuoteSchema } from './model/quote.schema';
       envFilePath: 'apps/quotes/.env',
       validationSchema: Joi.object({
         PORT: Joi.string().required(),
-        AUTH_HOST: Joi.string().required(),
-        AUTH_PORT: Joi.string().required(),
-        SEARCH_HOST: Joi.string().required(),
-        SEARCH_PORT: Joi.string().required(),
         MONGODB_URI: Joi.string().required(),
       }),
     }),
@@ -31,10 +27,10 @@ import { QuoteDocument, QuoteSchema } from './model/quote.schema';
       {
         name: AUTH_SERVICE,
         useFactory: (configService: ConfigService) => ({
-          transport: Transport.TCP,
+          transport: Transport.RMQ,
           options: {
-            host: configService.get<string>('AUTH_HOST'),
-            port: configService.get<number>('AUTH_PORT'),
+            urls: [configService.get<string>('RABBITMQ_URI')],
+            queue: 'auth',
           },
         }),
         inject: [ConfigService],
@@ -42,10 +38,10 @@ import { QuoteDocument, QuoteSchema } from './model/quote.schema';
       {
         name: SEARCH_SERVICE,
         useFactory: (configService: ConfigService) => ({
-          transport: Transport.TCP,
+          transport: Transport.RMQ,
           options: {
-            host: configService.get<string>('SEARCH_HOST'),
-            port: configService.get<number>('SEARCH_PORT'),
+            urls: [configService.get<string>('RABBITMQ_URI')],
+            queue: 'search',
           },
         }),
         inject: [ConfigService],

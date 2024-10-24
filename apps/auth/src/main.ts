@@ -11,17 +11,17 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
 
   app.connectMicroservice({
-    transport: Transport.TCP,
+    transport: Transport.RMQ,
     options: {
-      host: '0.0.0.0',
-      port: configService.get<number>('TCP_PORT'),
+      urls: [configService.get<string>('RABBITMQ_URI')],
+      queue: 'auth',
     },
   });
 
   app.useLogger(app.get(Logger));
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
-  const port = configService.get<number>('HTTP_PORT');
+  const port = configService.get<number>('PORT');
 
   await app.startAllMicroservices();
   await app.listen(port);

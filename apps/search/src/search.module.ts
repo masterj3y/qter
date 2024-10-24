@@ -14,22 +14,19 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
       isGlobal: true,
       envFilePath: 'apps/search/.env',
       validationSchema: Joi.object({
-        HTTP_PORT: Joi.string().required(),
-        TCP_PORT: Joi.string().required(),
-        AUTH_HOST: Joi.string().required(),
-        AUTH_PORT: Joi.string().required(),
-        ELASTIC_HOST: Joi.string().required(),
-        ELASTIC_PORT: Joi.string().required(),
+        PORT: Joi.string().required(),
+        RABBITMQ_URI: Joi.string().required(),
+        ELASTIC_URI: Joi.string().required(),
       }),
     }),
     ClientsModule.registerAsync([
       {
         name: AUTH_SERVICE,
         useFactory: (configService: ConfigService) => ({
-          transport: Transport.TCP,
+          transport: Transport.RMQ,
           options: {
-            host: configService.get<string>('AUTH_HOST'),
-            port: configService.get<number>('AUTH_PORT'),
+            urls: [configService.get<string>('RABBITMQ_URI')],
+            queue: 'auth',
           },
         }),
         inject: [ConfigService],
@@ -37,7 +34,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
     ]),
     ElasticsearchModule.registerAsync({
       useFactory: (configService: ConfigService) => ({
-        node: `http://${configService.get('ELASTIC_HOST')}:${configService.get('ELASTIC_PORT')}`,
+        node: configService.get<string>('ELASTIC_URI'),
       }),
       inject: [ConfigService],
     }),
