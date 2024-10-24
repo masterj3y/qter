@@ -6,7 +6,6 @@
 **Installation**
 
 Enable Ingress: If you're using Minikube, enable Ingress to ensure proper application routing:
-Bash
 
     minikube addons enable ingress
 
