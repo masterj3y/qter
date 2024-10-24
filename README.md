@@ -21,3 +21,5 @@ You can run this application using either **Docker** or **Kubernetes**:
 
 -   **Docker**: A `docker-compose.yml` file is provided in the repository. Please adjust the values in the file to match your requirements before running the application.
 -   **Kubernetes (K8s)**: For guidance on running the application in a Kubernetes cluster, refer to the following [link](https://github.com/masterj3y/qter/blob/main/k8s/qter/README.md).
+
+Additionally, the process of building Docker images and pushing them to Docker Hub is automated using GitHub Actions. This ensures that a Docker image in sync with the current source code is always available. You can easily pull the latest version of the Docker image from Docker Hub and deploy it in your environment.
