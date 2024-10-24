@@ -36,16 +36,10 @@ spec:
         env:
         - name: PORT
           value: {{ .Values.quotes.port | quote }}
-        - name: AUTH_HOST
-          value: auth-tcp
-        - name: AUTH_PORT
-          value: {{ .Values.auth.tcpPort | quote }}
-        - name: SEARCH_HOST
-          value: search-tcp
-        - name: SEARCH_PORT
-          value: {{ .Values.search.tcpPort | quote }}
         - name: MONGODB_URI
           value: {{ .Values.quotes.mongoDbUri }}
+        - name: RABBITMQ_URI
+          value: "amqp://qter-rabbitmq:5672"
         ports:
         - containerPort: {{ .Values.quotes.port }}
       restartPolicy: Always

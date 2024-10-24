@@ -2,8 +2,7 @@ auth:
   name: auth
   image: masterj3y/qter-auth
   imageTag: latest
-  httpPort: 3000
-  tcpPort: 3001
+  port: 3000
   jwtSecret: <put-your-jwt-secret-here>
   mongoDbUri: mongodb://qter-mongodb/users 
 
@@ -18,8 +17,7 @@ search:
   name: search
   image: masterj3y/qter-search
   imageTag: latest
-  httpPort: 3003
-  tcpPort: 3004 
+  port: 3003
 
 mongodb:
   auth:
@@ -45,3 +43,13 @@ elasticsearch:
     replicaCount: 0
   ingest:
     replicaCount: 0
+
+rabbitmq:
+  auth:
+    username: "guest"
+    password: "guest"
+    tls:
+      enabled: false
+  persistence:
+    enabled: false
+

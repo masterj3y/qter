@@ -34,12 +34,12 @@ spec:
             cpu: 200m
             memory: 200Mi
         env:
-        - name: HTTP_PORT
-          value: {{ .Values.auth.httpPort | quote }}
-        - name: TCP_PORT
-          value: {{ .Values.auth.tcpPort | quote }}
+        - name: PORT
+          value: {{ .Values.auth.port | quote }}
         - name: MONGODB_URI
           value: {{ .Values.auth.mongoDbUri }}
+        - name: RABBITMQ_URI
+          value: "amqp://qter-rabbitmq:5672"
         - name: JWT_SECRET
           valueFrom:
             secretKeyRef:
@@ -48,6 +48,5 @@ spec:
         - name: JWT_EXPIRATION
           value: 90d
         ports:
-        - containerPort: {{ .Values.auth.httpPort }}
-        - containerPort: {{ .Values.auth.tcpPort }}
+        - containerPort: {{ .Values.auth.port }}
       restartPolicy: Always

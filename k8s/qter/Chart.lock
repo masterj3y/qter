@@ -5,5 +5,8 @@ dependencies:
 - name: elasticsearch
   repository: https://charts.bitnami.com/bitnami
   version: 21.3.22
-digest: sha256:79c3257f9fc87162087ef1b6a23654fc0abe3c6850871ac0b980675c1da7cf8f
-generated: "2024-10-23T15:07:48.923461502+03:30"
+- name: rabbitmq
+  repository: https://charts.bitnami.com/bitnami
+  version: 15.0.3
+digest: sha256:cfd65e66fd7e5f3bb5b2d1035d5a2e254451178082d4d2b955438e54d6323922
+generated: "2024-10-24T17:39:14.573820694+03:30"

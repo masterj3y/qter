@@ -34,18 +34,11 @@ spec:
             cpu: 200m
             memory: 200Mi
         env:
-        - name: HTTP_PORT 
-          value: {{ .Values.search.httpPort | quote }}
-        - name: TCP_PORT 
-          value: {{ .Values.search.tcpPort | quote }}
-        - name: AUTH_HOST
-          value: auth-tcp
-        - name: AUTH_PORT
-          value: {{ .Values.auth.tcpPort | quote }}
-        - name: ELASTIC_HOST 
-          value: qter-elasticsearch
-        - name: ELASTIC_PORT 
-          value: "9200"
+        - name: PORT 
+          value: {{ .Values.search.port | quote }}
+        - name: RABBITMQ_URI
+          value: "amqp://qter-rabbitmq:5672"
+        - name: ELASTIC_URI
+          value: "http://qter-elasticsearch:9200"
         ports:
-        - containerPort: {{ .Values.search.httpPort }}
-        - containerPort: {{ .Values.search.tcpPort }}
+        - containerPort: {{ .Values.search.port }}
