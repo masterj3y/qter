@@ -12,7 +12,7 @@ Bash
 
 **Configure Values**: Verify that the values.yaml file contains the correct configuration for your environment.
 
-**Update Dependencies**: Download the required charts (MongoDB, Elasticsearch):
+**Update Dependencies**: Download the required charts (MongoDB, Elasticsearch, RabbitMQ):
 
     helm dependency update
 
