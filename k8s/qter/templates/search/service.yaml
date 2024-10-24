@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ .Values.search.name }}-http"
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    app: {{ .Values.search.name }}
+  type: ClusterIP
+  ports:
+  - protocol: TCP
+    port: {{ .Values.search.httpPort }}
+    targetPort: {{ .Values.search.httpPort }}
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ .Values.search.name }}-tcp"
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    app: {{ .Values.search.name }}
+  type: ClusterIP
+  ports:
+  - protocol: TCP
+    port: {{ .Values.search.tcpPort }}
+    targetPort: {{ .Values.search.tcpPort }}

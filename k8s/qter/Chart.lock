@@ -1,0 +1,9 @@
+dependencies:
+- name: mongodb
+  repository: https://charts.bitnami.com/bitnami
+  version: 16.1.0
+- name: elasticsearch
+  repository: https://charts.bitnami.com/bitnami
+  version: 21.3.22
+digest: sha256:79c3257f9fc87162087ef1b6a23654fc0abe3c6850871ac0b980675c1da7cf8f
+generated: "2024-10-23T15:07:48.923461502+03:30"

@@ -1,0 +1,47 @@
+auth:
+  name: auth
+  image: masterj3y/qter-auth
+  imageTag: latest
+  httpPort: 3000
+  tcpPort: 3001
+  jwtSecret: <put-your-jwt-secret-here>
+  mongoDbUri: mongodb://qter-mongodb/users 
+
+quotes:
+  name: quotes
+  image: masterj3y/qter-quotes
+  imageTag: latest
+  port: 3002
+  mongoDbUri: mongodb://qter-mongodb/quotes 
+
+search:
+  name: search
+  image: masterj3y/qter-search
+  imageTag: latest
+  httpPort: 3003
+  tcpPort: 3004 
+
+mongodb:
+  auth:
+    enabled: false
+  persistence:
+    enabled: true
+    storageClass: "standard"
+    accessModes:
+      - ReadWriteOnce
+    size: "1Gi"
+
+elasticsearch:
+  security: 
+    enabled: false
+  master:
+    persistence:
+      enabled: true
+    masterOnly: false
+    replicaCount: 1
+  data:
+    replicaCount: 0
+  coordinating:
+    replicaCount: 0
+  ingest:
+    replicaCount: 0

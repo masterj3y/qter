@@ -1,0 +1,38 @@
+# https://kubernetes.io/docs/concepts/services-networking/ingress/
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /auth
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: "{{ .Values.auth.name }}-http"
+            port:
+              number: {{ .Values.auth.httpPort }}
+      - path: /users
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: "{{ .Values.auth.name }}-http"
+            port:
+              number: {{ .Values.auth.httpPort }}
+      - path: /quotes
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: {{ .Values.quotes.name }}
+            port:
+              number: {{ .Values.quotes.port }}
+      - path: /search
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: "{{ .Values.search.name }}-http"
+            port:
+              number: {{ .Values.search.httpPort }}

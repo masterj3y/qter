@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.quotes.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Values.quotes.name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.quotes.name }}
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        kubectl.kubernetes.io/default-container:  quotes
+      labels:
+        app: {{ .Values.quotes.name }}
+    spec:
+      containers:
+      - name: {{ .Values.quotes.name }}
+        image: "{{ .Values.quotes.image }}:{{ .Values.quotes.imageTag }}"
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 200m
+            memory: 200Mi
+        env:
+        - name: PORT
+          value: {{ .Values.quotes.port | quote }}
+        - name: AUTH_HOST
+          value: auth-tcp
+        - name: AUTH_PORT
+          value: {{ .Values.auth.tcpPort | quote }}
+        - name: SEARCH_HOST
+          value: search-tcp
+        - name: SEARCH_PORT
+          value: {{ .Values.search.tcpPort | quote }}
+        - name: MONGODB_URI
+          value: {{ .Values.quotes.mongoDbUri }}
+        ports:
+        - containerPort: {{ .Values.quotes.port }}
+      restartPolicy: Always
+---
+
