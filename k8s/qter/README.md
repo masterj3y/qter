@@ -42,7 +42,9 @@ Enable Ingress: If you're using Minikube, enable Ingress to ensure proper applic
 ## Troubleshooting:
 
 **Check logs**: Use kubectl logs to inspect the logs of your deployed pods for any errors or warnings.
+
 **Verify configurations**: Double-check the values.yaml file and the Helm chart configuration for any typos or **incorrect settings.
+
 Inspect resources**: Use kubectl get pods,services,ingress to verify that the resources are created correctly.
 
 By following these steps and carefully reviewing the logs, you should be able to successfully deploy your application using Helm.
