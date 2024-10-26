@@ -9,6 +9,16 @@ Enable Ingress: If you're using Minikube, enable Ingress to ensure proper applic
 
     minikube addons enable ingress
 
+In order for your application to function correctly and for you to be able to use the automatic scaling of the number of pods (Horizontal Pod Autoscaler or HPA), you need to enable the metrics-server in your cluster.
+Enable Metrics-Server: 
+
+    kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+
+If you're using minikube, enable the metrics-server using the file `k8s/qter/metrics-server.yaml`
+
+    kubectl apply -f metrics-server.yaml
+
+
 - **Configure Values**: Verify that the values.yaml file contains the correct configuration for your environment.
 - **Update Dependencies**: Download the required charts (MongoDB, Elasticsearch, RabbitMQ):
 
