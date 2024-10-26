@@ -30,6 +30,9 @@ RUN npm install --omit=dev
 
 COPY --from=development /usr/src/app/dist ./dist
 
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+USER appuser
+
 RUN ls ./dist/apps/auth/
 
 ENTRYPOINT [ "node", "./dist/apps/auth/main.js" ]
