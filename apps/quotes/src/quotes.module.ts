@@ -11,6 +11,8 @@ import {
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { QuotesController } from './quotes.controller';
 import { QuoteDocument, QuoteSchema } from './model/quote.schema';
+import { LivenessModule } from './liveness/liveness.module';
+import { ReadinessModule } from './readiness/readiness.module';
 
 @Module({
   imports: [
@@ -54,6 +56,8 @@ import { QuoteDocument, QuoteSchema } from './model/quote.schema';
         schema: QuoteSchema,
       },
     ]),
+    LivenessModule,
+    ReadinessModule,
   ],
   controllers: [QuotesController],
   providers: [QuotesService],

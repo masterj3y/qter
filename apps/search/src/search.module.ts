@@ -6,6 +6,8 @@ import * as Joi from 'joi';
 import { AUTH_SERVICE, LoggerModule } from '@app/common';
 import { ElasticsearchModule } from '@nestjs/elasticsearch';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { LivenessModule } from './liveness/liveness.module';
+import { ReadinessModule } from './readiness/readiness.module';
 
 @Module({
   imports: [
@@ -38,6 +40,8 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
       }),
       inject: [ConfigService],
     }),
+    LivenessModule,
+    ReadinessModule,
   ],
   controllers: [SearchController],
   providers: [SearchService],
