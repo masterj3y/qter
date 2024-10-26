@@ -1,0 +1,13 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ .Values.auth.name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ .Values.auth.name }}
+  minReplicas: {{ .Values.auth.hpa.minReplicas }}
+  maxReplicas: {{ .Values.auth.hpa.maxReplicas }}
+  targetCPUUtilizationPercentage: {{ .Values.auth.hpa.targetCPUUtilizationPercentage }}

@@ -5,6 +5,10 @@ auth:
   port: 3000
   jwtSecret: <put-your-jwt-secret-here>
   mongoDbUri: mongodb://qter-mongodb/users 
+  hpa:
+    minReplicas: 1
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 85
 
 quotes:
   name: quotes
@@ -12,12 +16,20 @@ quotes:
   imageTag: latest
   port: 3002
   mongoDbUri: mongodb://qter-mongodb/quotes 
+  hpa:
+    minReplicas: 1
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 85
 
 search:
   name: search
   image: masterj3y/qter-search
   imageTag: latest
   port: 3003
+  hpa:
+    minReplicas: 1
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 85
 
 mongodb:
   auth:
