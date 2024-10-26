@@ -17,8 +17,6 @@ services:
       context: .
       dockerfile: ./apps/auth/Dockerfile
       target: production
-    env_file:
-      - ./apps/auth/.env
     environment:
       - PORT=3000
       - MONGODB_URI=mongodb://mongo:27017/users
@@ -31,8 +29,6 @@ services:
       context: .
       dockerfile: ./apps/quotes/Dockerfile
       target: production
-    env_file:
-      - ./apps/quotes/.env
     environment:
       - PORT=3002
       - MONGODB_URI=mongodb://mongo:27017/quotes
@@ -43,8 +39,6 @@ services:
       context: .
       dockerfile: ./apps/search/Dockerfile
       target: production
-    env_file:
-      - ./apps/search/.env
     environment:
       - PORT=3003
       - RABBITMQ_URI=amqp://rabbitmq:5672
