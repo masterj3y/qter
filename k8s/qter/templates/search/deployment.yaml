@@ -42,3 +42,21 @@ spec:
           value: "http://qter-elasticsearch:9200"
         ports:
         - containerPort: {{ .Values.search.port }}
+        livenessProbe:
+          httpGet:
+            path: /search/liveness
+            port: {{ .Values.search.port }}
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /search/readiness
+            port: {{ .Values.search.port }}
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 3
+          successThreshold: 1
+          failureThreshold: 3

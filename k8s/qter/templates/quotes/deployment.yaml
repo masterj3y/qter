@@ -42,6 +42,24 @@ spec:
           value: "amqp://qter-rabbitmq:5672"
         ports:
         - containerPort: {{ .Values.quotes.port }}
+        livenessProbe:
+          httpGet:
+            path: /quotes/liveness/check
+            port: {{ .Values.quotes.port }}
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /quotes/readiness/check
+            port: {{ .Values.quotes.port }}
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 3
+          successThreshold: 1
+          failureThreshold: 3
       restartPolicy: Always
 ---
 

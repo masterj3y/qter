@@ -49,4 +49,22 @@ spec:
           value: 90d
         ports:
         - containerPort: {{ .Values.auth.port }}
+        livenessProbe:
+          httpGet:
+            path: /auth/liveness
+            port: {{ .Values.auth.port }}
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /auth/readiness
+            port: {{ .Values.auth.port }}
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 3
+          successThreshold: 1
+          failureThreshold: 3
       restartPolicy: Always
